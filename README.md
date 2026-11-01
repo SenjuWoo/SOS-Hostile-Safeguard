@@ -15,7 +15,7 @@
 <p align="center">
   <a href="https://github.com/SenjuWoo/SOS-Hostile-Safeguard/actions/workflows/build.yml"><img src="https://github.com/SenjuWoo/SOS-Hostile-Safeguard/actions/workflows/build.yml/badge.svg" alt="Build"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-f07178?labelColor=0d0f11" alt="MIT License"></a>
-  <a href="https://github.com/SenjuWoo/SOS-Hostile-Safeguard/releases/tag/v1.0.1"><img src="https://img.shields.io/badge/release-v1.0.1-f07178?labelColor=0d0f11" alt="v1.0.1"></a>
+  <a href="https://github.com/SenjuWoo/SOS-Hostile-Safeguard/releases/latest"><img src="https://img.shields.io/github/v/release/SenjuWoo/SOS-Hostile-Safeguard?label=release&color=f07178" alt="latest release"></a>
   <img src="https://img.shields.io/badge/DLL-SOS%202.3.1-8f9aa6?labelColor=0d0f11" alt="DLL 2.3.1">
 </p>
 
