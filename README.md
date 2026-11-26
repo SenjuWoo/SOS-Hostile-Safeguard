@@ -110,6 +110,10 @@ Restart the game after INI changes. Without SPID, the DLL's faction and NPC Edit
 apply to offence reactions; MCM damage blocking may still apply to untagged uniques on the perk
 path.
 
+The DLL resolves both lists by EditorID at data load and logs each one it cannot find
+(`Hostile faction EditorID not found: ...`, `Hostile NPC EditorID not found: ...`) in
+`po3_SimpleOffenceSuppression.log`; check that log after installing or editing the lists.
+
 ## Build
 
 Tools and the longer recipe: [`docs/BUILD.md`](docs/BUILD.md).
@@ -187,7 +191,7 @@ source-publish/
 | **wankingSkeever** (et al.) | SOS MCM – Block Friendly Fire (perk behaviour patched, not rehosted wholesale) |
 | **Ryan / CommonLibSSE lineage** | Library used by the upstream plugin family |
 | **meh321** | Address Library |
-| **ShugokiFable** | Hostile Safeguard fork (exclusions, unique NPC list, MCM perk patch, packaging) |
+| **SenjuWoo** | Hostile Safeguard fork (exclusions, unique NPC list, MCM perk patch, packaging) |
 
 ## Permissions
 

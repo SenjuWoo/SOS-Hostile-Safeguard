@@ -9,7 +9,8 @@ Documentation only; the shipped DLL, ESP and INIs are unchanged (still 1.0.1 / D
 - README rebuilt around a cover image and two real terminal shots (a local AE build, the shipped `release/1.0.1` files and default exclusions), with a flow diagram of the exclusion check.
 - `docs/BUILD.md` now pins CommonLibSSE to `86eb2b8` and clones CommonLibVR exactly as CI does (unpinned `dev` no longer has `include/REL`), uses the `buildae` preset folder, notes that `COPY_BUILD` defaults to ON, and explains the vcpkg toolset mismatch on machines with several MSVC versions.
 - The runtime is stated as the AE runtime (1.6.x, Address Library); the DLL is not built for 1.5.97.
-- `GITHUB.md` names the current account.
+- `GITHUB.md` names the current account, and the README credits row reads `SenjuWoo` (the account's current name); LICENSE is unchanged.
+- README notes where the DLL logs EditorIDs it could not resolve.
 
 ## [1.0.1] — 2026-08-05
 
