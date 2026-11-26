@@ -4,7 +4,7 @@
 |--|--|
 | **Repo** | https://github.com/SenjuWoo/SOS-Hostile-Safeguard |
 | **Clone** | `git clone https://github.com/SenjuWoo/SOS-Hostile-Safeguard.git` |
-| **Account** | ShugokiFable |
+| **Account** | SenjuWoo |
 | **Default branch** | `main` |
 | **This folder** | Canonical project + publish home |
 

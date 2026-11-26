@@ -19,12 +19,16 @@ From the repository root:
 ```powershell
 cd source-publish\SimpleOffenceSuppression
 
-# CommonLibSSE (powerofthree dev)
+# CommonLibSSE (powerofthree), pinned to the last snapshot that still has include/REL.
+# Later dev dropped include/REL (commonlib-shared migration, 2026-08-21); CI uses the same pin.
 git clone --depth 1 --branch dev https://github.com/powerof3/CommonLibSSE.git extern\CommonLibSSE
+git -C extern\CommonLibSSE fetch --depth 1 origin 86eb2b853101053390a81378b6263c2911603824
+git -C extern\CommonLibSSE checkout --quiet 86eb2b853101053390a81378b6263c2911603824
+git clone --depth 1 https://github.com/alandtse/CommonLibVR.git extern\CommonLibVR
 
-# Optional: point env explicitly
+# A classic vcpkg clone (git clone https://github.com/microsoft/vcpkg + bootstrap-vcpkg.bat).
+# The copy bundled with Visual Studio refuses vcpkg.json without a builtin-baseline.
 $env:VCPKG_ROOT = "C:\path\to\vcpkg"
-$env:CommonLibSSEPath = (Resolve-Path .\extern\CommonLibSSE).Path
 ```
 
 vcpkg packages are pulled via `vcpkg.json` (simpleini, spdlog, xbyak, boost-stl-interfaces, rsm-binary-io, …).
@@ -32,24 +36,42 @@ vcpkg packages are pulled via `vcpkg.json` (simpleini, spdlog, xbyak, boost-stl-
 ## Configure & build
 
 ```powershell
-# From source-publish\SimpleOffenceSuppression, in a VS x64 dev shell:
+# From source-publish\SimpleOffenceSuppression:
 
-cmake -B build-ae -S . `
-  -DBUILD_SKYRIMAE=ON `
-  -DCOPY_BUILD=OFF `
-  -G "Visual Studio 17 2022" -A x64
-  # or "Visual Studio 18 2026" if that is your installed generator
-
-cmake --build build-ae --config Release -j 8
+cmake --preset vs2022-windows-vcpkg-ae -DCOPY_BUILD=OFF
+cmake --build buildae --config Release
 ```
 
 Output:
 
 ```text
-build-ae\Release\po3_SimpleOffenceSuppression.dll
+buildae\Release\po3_SimpleOffenceSuppression.dll
 ```
 
-Copy that DLL into a mod’s `SKSE\Plugins\` (same name as stock SOS — **replaces** the original DLL).
+Copy that DLL into a mod's `SKSE\Plugins\` (same name as stock SOS, it **replaces** the original DLL).
+
+`COPY_BUILD` defaults to ON in `CMakeLists.txt`: when `SkyrimAEPath` is set, a post-build step copies the DLL and PDB
+into that game folder. Pass `-DCOPY_BUILD=OFF` to keep the build out of your game install.
+
+Equivalent manual configure without the preset:
+
+```powershell
+cmake -B buildae -S . `
+  -DBUILD_SKYRIMAE=ON `
+  -DCOPY_BUILD=OFF `
+  -G "Visual Studio 17 2022" -A x64 -T v143
+cmake --build buildae --config Release -j 8
+```
+
+### Several MSVC toolsets installed
+
+vcpkg builds its libraries with the newest MSVC it finds, while the preset's `v143` toolset uses that Visual Studio
+instance's default version. If the two differ, the link fails with unresolved `__std_find_*_trivial_*` symbols from
+`spdlog.lib`. Point vcpkg at the same compiler: set `VCPKG_VISUAL_STUDIO_PATH` to the VS 2022 instance, and if that
+instance holds several v143 versions, add an overlay triplet (`VCPKG_OVERLAY_TRIPLETS`) whose
+`x64-windows-static.cmake` sets `VCPKG_PLATFORM_TOOLSET_VERSION` to the version the project compiles with
+(shown as `The CXX compiler identification is MSVC 19.xx` during configure). GitHub's windows-2022 runner has one
+toolset and needs neither.
 
 ## Source map
 
